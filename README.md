@@ -1,6 +1,7 @@
 # statusCodeFuzzer
 Simple status code fuzzer with path fuzz
 
+```
 Usage: main --file FILE [--suffix SUFFIX] [--proxy PROXY] [--threads THREADS]
 
 Options:
@@ -12,3 +13,4 @@ Options:
   --threads THREADS, -t THREADS
                          threads count [default: 1]
   --help, -h             display this help and exit
+```
