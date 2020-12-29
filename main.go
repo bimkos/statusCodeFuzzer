@@ -11,7 +11,6 @@ import (
 	"errors"
 	"net"
 	"io"
-	_ "net/http/pprof"
 	"io/ioutil"
 	"strconv"
 	"strings"
@@ -50,7 +49,7 @@ func statusCodeChecker(client *http.Client, urls chan string, wg *sync.WaitGroup
 		resp, err := client.Get(url)
 		if err != nil {
 			if strings.Contains(fmt.Sprintf("%s", err), "Redirect") {
-				defer resp.Body.Close()
+				resp.Body.Close()
 				loc, err := resp.Location()
 				check(err)
 				toWrite := fmt.Sprintf("%s -> %s", url, loc)
@@ -59,7 +58,7 @@ func statusCodeChecker(client *http.Client, urls chan string, wg *sync.WaitGroup
 				log.Println(err)
 			}
 		} else {
-				defer resp.Body.Close()
+				resp.Body.Close()
 				writeToFile(url, resp.StatusCode)
 		}
 	}
@@ -187,6 +186,6 @@ func main() {
 		check(err)
 		log.Println("Current IP: ",string(body))
 	}
-	go http.ListenAndServe("localhost:8080", nil)
+	
 	readFiles(client, opts.Hosts, opts.Suffix, opts.Threads)
 }
